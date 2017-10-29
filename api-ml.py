@@ -1,18 +1,20 @@
 import requests
 import json
 import re
-from collections import Counter
 
 url_base = 'https://wordpress.org/plugins'
-op = []
 posts = []
 requires = []
 tested = []
 requires_php = []
+
 per_page = 100
 
+r = requests.get(url_base + '/wp-json/wp/v2/posts/?per_page=' + str(per_page))
+total_pages = int(r.headers['x-wp-totalpages'])
+total_pages += 1
 
-def validation(val):
+def validation (val):
     if re.search(r"\d", val):
         o = re.search(r"\d(.\d)?(.\d)?", val)
         o = o.group()
@@ -26,12 +28,8 @@ def validation(val):
 
         return (o)
 
-    else:
+    else: 
         return False
-
-r = requests.get(url_base + '/wp-json/wp/v2/posts/?per_page=' + str(per_page))
-total_pages = int(r.headers['x-wp-totalpages'])
-total_pages += 1
 
 for i in range(1, total_pages):
     url = url_base + '/wp-json/wp/v2/posts/?per_page=' + str(per_page) + '&page=' + str(i)
@@ -42,7 +40,7 @@ for i in range(1, total_pages):
 for post in posts:
     for li in post:
         di = dict(li)
-
+        
         req = validation(di['meta']['requires'])
         tes = validation(di['meta']['tested'])
         php = validation(di['meta']['requires_php'])
@@ -56,11 +54,11 @@ for post in posts:
         if php:
             requires_php.append(php)
 
-requires = Counter(requires)
-tested = Counter(tested)
-requires_php = Counter(requires_php)
+with open('json/requires.json', 'w') as fp:
+    json.dump(requires, fp)
 
-plugins = [requires, tested, requires_php]
+with open('json/tested.json', 'w') as fp:
+    json.dump(tested, fp)
 
-with open('plugins.json', 'w') as fp:
-    json.dump(plugins, fp)
+with open('json/requires_php.json', 'w') as fp:
+    json.dump(requires_php, fp)
