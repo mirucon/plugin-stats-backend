@@ -1,10 +1,19 @@
 import re
 
 
-def validation (val):
+def validation(val):
     if re.search(r"\d", val):
         o = re.search(r"\d(.\d)?(.\d)?", val)
         o = o.group()
+
+        if re.search(r"\d\d", o):
+            return False
+
+        if re.search(r"/", o):
+            o = o.replace("/", ".")
+
+        if re.search(r",", o):
+            o = o.replace(",", ".")
 
         if re.fullmatch(r"\d", o):
             o = o + '.0'
@@ -15,7 +24,7 @@ def validation (val):
 
         return (o)
 
-    else: 
+    else:
         return False
 
-print( validation('WP 4.8.2') )
+print(validation('4/0'))
