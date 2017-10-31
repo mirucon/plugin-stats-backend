@@ -2,6 +2,7 @@ import requests
 import json
 import re
 from collections import Counter
+from collections import OrderedDict
 
 url_base = 'https://wordpress.org/plugins'
 op = []
@@ -59,6 +60,14 @@ for post in posts:
 requires = Counter(requires)
 tested = Counter(tested)
 requires_php = Counter(requires_php)
+
+requires = sorted(requires.items(), key=lambda x: x[1], reverse=True)
+tested = sorted(tested.items(), key=lambda x: x[1], reverse=True)
+requires_php = sorted(requires_php.items(), key=lambda x: x[1], reverse=True)
+
+requires = dict(requires)
+tested = dict(tested)
+requires_php = dict(requires_php)
 
 plugins = [requires, tested, requires_php]
 
