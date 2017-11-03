@@ -11,6 +11,7 @@ requires = []
 tested = []
 requires_php = []
 per_page = 100
+wp_current = '4.9'
 
 
 def validation(val):
@@ -33,6 +34,9 @@ def validation(val):
         if re.fullmatch(r"\d.\d.\d", o):
             o = re.search(r"\d.\d", o)
             o = o.group()
+
+        if o > wp_current:
+            return False
 
         return (o)
 

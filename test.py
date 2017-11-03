@@ -1,4 +1,5 @@
 import re
+wp_current = '4.9'
 
 
 def validation(val):
@@ -22,9 +23,12 @@ def validation(val):
             o = re.search(r"\d.\d", o)
             o = o.group()
 
+        if o > wp_current:
+            return False
+
         return (o)
 
     else:
         return False
 
-print(validation('4/0'))
+print(validation('9.9'))
