@@ -10,6 +10,8 @@ posts = []
 requires = []
 tested = []
 requires_php = []
+downloads = []
+installs = []
 per_page = 100
 wp_current = '4.9'
 
@@ -43,6 +45,23 @@ def validation(val):
     else:
         return False
 
+
+def dl_counter(val):
+    if 0 <= val < 100:
+        o = '0-99'
+    elif 100 < val < 1000:
+        o = '100-999'
+    elif 1000 < val < 10000:
+        o = '1000-9999'
+    elif 10000 < val < 100000:
+        o = '10k-100k'
+    elif 100000 < val:
+        o = '100k+'
+    else:
+        return False
+
+    return o
+
 r = requests.get(url_base + '/wp-json/wp/v2/posts/?per_page=' + str(per_page))
 total_pages = int(r.headers['x-wp-totalpages'])
 total_pages += 1
@@ -60,6 +79,8 @@ for post in posts:
         req = validation(di['meta']['requires'])
         tes = validation(di['meta']['tested'])
         php = validation(di['meta']['requires_php'])
+        dl = dl_counter(di['meta']['downloads'])
+        ins = dl_counter(di['meta']['active_installs'])
 
         if req:
             requires.append(req)
@@ -70,19 +91,33 @@ for post in posts:
         if php:
             requires_php.append(php)
 
+        if dl:
+            downloads.append(dl)
+
+        if ins:
+            installs.append(ins)
+
+# Count each dict
 requires = Counter(requires)
 tested = Counter(tested)
 requires_php = Counter(requires_php)
+downloads = Counter(downloads)
+installs = Counter(installs)
 
-requires = sorted(requires.items(), key=lambda x: x[1], reverse=True)
-tested = sorted(tested.items(), key=lambda x: x[1], reverse=True)
-requires_php = sorted(requires_php.items(), key=lambda x: x[1], reverse=True)
+# Sort the dict
 
+# requires = sorted(requires.items(), key=lambda x: x[1], reverse=True)
+# tested = sorted(tested.items(), key=lambda x: x[1], reverse=True)
+# requires_php = sorted(requires_php.items(), key=lambda x: x[1], reverse=True)
+
+# Make the list to dict
 requires = dict(requires)
 tested = dict(tested)
 requires_php = dict(requires_php)
+downloads = dict(downloads)
+installs = dict(installs)
 
-plugins = [requires, tested, requires_php]
+plugins = [requires, tested, requires_php, downloads, installs]
 
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp)

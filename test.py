@@ -31,4 +31,4 @@ def validation(val):
     else:
         return False
 
-print(validation('9.9'))
+print(validation('4/9'))
