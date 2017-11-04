@@ -5,6 +5,7 @@ from collections import Counter
 from collections import OrderedDict
 
 url_base = 'https://wordpress.org/plugins'
+url_el = '/wp-json/wp/v2/posts/?per_page='
 op = []
 posts = []
 requires = []
@@ -62,12 +63,12 @@ def dl_counter(val):
 
     return o
 
-r = requests.get(url_base + '/wp-json/wp/v2/posts/?per_page=' + str(per_page))
+r = requests.get(url_base + url_el + str(per_page))
 total_pages = int(r.headers['x-wp-totalpages'])
 total_pages += 1
 
 for i in range(1, total_pages):
-    url = url_base + '/wp-json/wp/v2/posts/?per_page=' + str(per_page) + '&page=' + str(i)
+    url = url_base + url_el + str(per_page) + '&page=' + str(i)
     r = requests.get(url)
     data = r.json()
     posts.append(data)
@@ -106,9 +107,9 @@ installs = Counter(installs)
 
 # Sort the dict
 
-# requires = sorted(requires.items(), key=lambda x: x[1], reverse=True)
-# tested = sorted(tested.items(), key=lambda x: x[1], reverse=True)
-# requires_php = sorted(requires_php.items(), key=lambda x: x[1], reverse=True)
+requires = sorted(requires.items(), key=lambda x: x[1], reverse=True)
+tested = sorted(tested.items(), key=lambda x: x[1], reverse=True)
+requires_php = sorted(requires_php.items(), key=lambda x: x[1], reverse=True)
 
 # Make the list to dict
 requires = dict(requires)
