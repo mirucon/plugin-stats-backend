@@ -123,7 +123,7 @@ r = requests.get(url_base + url_el + str(per_page))
 total_pages = int(r.headers['x-wp-totalpages'])
 total_pages += 1
 
-for i in range(1, 2):
+for i in range(1, total_pages):
     url = url_base + url_el + str(per_page) + '&page=' + str(i)
     r = requests.get(url)
     data = r.json()
