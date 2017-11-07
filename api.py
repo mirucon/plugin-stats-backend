@@ -1,6 +1,7 @@
 import requests
 import json
 import re
+import datetime
 from collections import Counter
 from collections import OrderedDict
 
@@ -13,6 +14,7 @@ tested = []
 requires_php = []
 downloads = []
 installs = []
+dates = []
 per_page = 100
 wp_current = '4.9'
 
@@ -24,22 +26,41 @@ def validation(val):
 
         if re.search(r"\d\d", o):
             return False
-
         if re.search(r"/", o):
             o = o.replace("/", ".")
-
         if re.search(r",", o):
             o = o.replace(",", ".")
-
         if re.fullmatch(r"\d", o):
             o = o + '.0'
-
         if re.fullmatch(r"\d.\d.\d", o):
             o = re.search(r"\d.\d", o)
             o = o.group()
 
         if o > wp_current:
             return False
+
+        return (o)
+
+    else:
+        return False
+
+
+def val_php(val):
+    if re.search(r"\d", val):
+        o = re.search(r"\d(.\d)?(.\d)?", val)
+        o = o.group()
+
+        if re.search(r"\d\d", o):
+            return False
+        if re.search(r"/", o):
+            o = o.replace("/", ".")
+        if re.search(r",", o):
+            o = o.replace(",", ".")
+        if re.fullmatch(r"\d", o):
+            o = o + '.0'
+        if re.fullmatch(r"\d.\d.\d", o):
+            o = re.search(r"\d.\d", o)
+            o = o.group()
 
         return (o)
 
@@ -55,7 +76,7 @@ def dl_counter(val):
     elif 1000 < val < 10000:
         o = '1000-9999'
     elif 10000 < val < 100000:
-        o = '10k-100k'
+        o = '10k-99k'
     elif 100000 < val:
         o = '100k+'
     else:
@@ -63,11 +84,46 @@ def dl_counter(val):
 
     return o
 
+
+def rel_time(val):
+    cur_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    cur_time = datetime.datetime.strptime(cur_time, '%Y-%m-%d %H:%M:%S')
+    val = datetime.datetime.strptime(val, '%Y-%m-%dT%H:%M:%S')
+    val = cur_time - val
+    val = val.days
+
+    if 0 <= val < 30:
+        o = 'Within a month ago'
+
+    elif 30 < val < 90:
+        o = '1 month ago'
+
+    elif 90 < val < 180:
+        o = '3 months ago'
+
+    elif 180 < val < 365:
+        o = '6 year ago'
+
+    elif 365 < val < 730:
+        o = 'a year ago'
+
+    elif 730 < val < 1460:
+        o = '2 year ago'
+
+    elif 1460 < val:
+        o = 'More than 4 year ago'
+
+    else:
+        return False
+
+    return o
+
+
 r = requests.get(url_base + url_el + str(per_page))
 total_pages = int(r.headers['x-wp-totalpages'])
 total_pages += 1
 
-for i in range(1, total_pages):
+for i in range(1, 2):
     url = url_base + url_el + str(per_page) + '&page=' + str(i)
     r = requests.get(url)
     data = r.json()
@@ -79,9 +135,10 @@ for post in posts:
 
         req = validation(di['meta']['requires'])
         tes = validation(di['meta']['tested'])
-        php = validation(di['meta']['requires_php'])
+        php = val_php(di['meta']['requires_php'])
         dl = dl_counter(di['meta']['downloads'])
         ins = dl_counter(di['meta']['active_installs'])
+        time = rel_time(di['modified'])
 
         if req:
             requires.append(req)
@@ -98,18 +155,21 @@ for post in posts:
         if ins:
             installs.append(ins)
 
+        if time:
+            dates.append(time)
+
 # Count each dict
 requires = Counter(requires)
 tested = Counter(tested)
 requires_php = Counter(requires_php)
 downloads = Counter(downloads)
 installs = Counter(installs)
+dates = Counter(dates)
 
 # Sort the dict
-
-requires = sorted(requires.items(), key=lambda x: x[1], reverse=True)
-tested = sorted(tested.items(), key=lambda x: x[1], reverse=True)
-requires_php = sorted(requires_php.items(), key=lambda x: x[1], reverse=True)
+requires = OrderedDict(sorted(requires.items()))
+tested = OrderedDict(sorted(tested.items()))
+requires_php = OrderedDict(sorted(requires_php.items()))
 
 # Make the list to dict
 requires = dict(requires)
@@ -117,8 +177,9 @@ tested = dict(tested)
 requires_php = dict(requires_php)
 downloads = dict(downloads)
 installs = dict(installs)
+dates = dict(dates)
 
-plugins = [requires, tested, requires_php, downloads, installs]
+plugins = [requires, tested, requires_php, downloads, installs, dates]
 
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp)
