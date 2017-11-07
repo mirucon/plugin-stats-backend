@@ -12,7 +12,7 @@ branches:
     - master
 
 script:
-  - python api.py
+  - travis_wait python api.py
 
 env:
   global:

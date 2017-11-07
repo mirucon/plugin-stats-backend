@@ -115,7 +115,7 @@ def rel_time(val):
         o = '2 years ago'
 
     elif 1460 < val:
-        o = 'More than 4 years ago'
+        o = '4 years ago'
 
     else:
         return False
@@ -125,7 +125,7 @@ def rel_time(val):
 
 r = requests.get(url_base + url_el + str(per_page))
 total_pages = int(r.headers['x-wp-totalpages'])
-total_plugins = int(r.headers['x-wp-total'])
+total = int(r.headers['x-wp-total'])
 total_pages += 1
 
 for i in range(1, total_pages):
@@ -184,7 +184,7 @@ downloads = dict(downloads)
 installs = dict(installs)
 dates = dict(dates)
 
-plugins = [requires, tested, requires_php, downloads, installs, dates, total_plugins]
+plugins = [requires, tested, requires_php, downloads, installs, dates, total]
 
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp)
