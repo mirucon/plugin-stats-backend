@@ -36,9 +36,14 @@ def validation(val):
 
 
 def rel_time(val):
-    cur_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    cur_time = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     cur_time = datetime.datetime.strptime(cur_time, '%Y-%m-%d %H:%M:%S')
-    val = datetime.datetime.strptime(val, '%Y-%m-%dT%H:%M:%S')
+    print(cur_time)
+    try:
+        val = datetime.datetime.strptime(val, '%Y-%m-%dT%H:%M:%S')
+    except ValueError:
+        return False
+
     val = cur_time - val
     val = val.days
 
@@ -68,4 +73,4 @@ def rel_time(val):
 
     return o
 
-print(rel_time('2013-07-20T13:41:00'))
+print(rel_time('-001-11-30T00:00:00'))
