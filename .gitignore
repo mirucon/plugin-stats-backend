@@ -1,6 +1,0 @@
-node_modules/*
-test.py
-*.pub
-github_travis
-
-*.DS_Store
