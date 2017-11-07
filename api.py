@@ -86,9 +86,13 @@ def dl_counter(val):
 
 
 def rel_time(val):
-    cur_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    cur_time = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     cur_time = datetime.datetime.strptime(cur_time, '%Y-%m-%d %H:%M:%S')
-    val = datetime.datetime.strptime(val, '%Y-%m-%dT%H:%M:%S')
+    try:
+        val = datetime.datetime.strptime(val, '%Y-%m-%dT%H:%M:%S')
+    except ValueError:
+        return False
+
     val = cur_time - val
     val = val.days
 
@@ -96,22 +100,22 @@ def rel_time(val):
         o = 'Within a month ago'
 
     elif 30 < val < 90:
-        o = '1 month ago'
+        o = 'A month ago'
 
     elif 90 < val < 180:
         o = '3 months ago'
 
     elif 180 < val < 365:
-        o = '6 year ago'
+        o = '6 months ago'
 
     elif 365 < val < 730:
-        o = 'a year ago'
+        o = 'A year ago'
 
     elif 730 < val < 1460:
-        o = '2 year ago'
+        o = '2 years ago'
 
     elif 1460 < val:
-        o = 'More than 4 year ago'
+        o = 'More than 4 years ago'
 
     else:
         return False
@@ -121,6 +125,7 @@ def rel_time(val):
 
 r = requests.get(url_base + url_el + str(per_page))
 total_pages = int(r.headers['x-wp-totalpages'])
+total_plugins = int(r.headers['x-wp-total'])
 total_pages += 1
 
 for i in range(1, total_pages):
@@ -179,7 +184,7 @@ downloads = dict(downloads)
 installs = dict(installs)
 dates = dict(dates)
 
-plugins = [requires, tested, requires_php, downloads, installs, dates]
+plugins = [requires, tested, requires_php, downloads, installs, dates, total_plugins]
 
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp)
