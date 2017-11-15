@@ -1,34 +1,23 @@
 language: python
-
-branches:
-  except:
-    - master
-
-python:
-- '3.6'
-
-install:
-- pip install -r requirements.txt
-- npm install
-
 branches:
   only:
   - master
-
+python:
+- '3.6'
+install:
+- pip install -r requirements.txt
+- npm install
 script:
 - travis_wait 30 python api.py
-
 env:
   global:
   - GIT_COMMITTER_NAME=Mirucon
   - GIT_COMMITTER_EMAIL=i@miruc.co
   - GIT_AUTHOR_NAME=Mirucon
   - GIT_AUTHOR_EMAIL=i@miruc.co
-  - secure: kW+1VXPW2o3VZ0IBh9u0NPCiTUzNNYe7Hlogj2sbUv3oy8bIu7TIVf6xFuUOw8FOZ4Zdnq4q2DHRYsiTfwbtleAnQNJzY6DQAqx/h6IKJSUP/1Hzmc6Qrps6o0xjXeLux8leXj6KaJ6HRqbUlCCnDxUM/xaTh9STv6BcQzW8GeOyLuA/+cZcGIhg+Am0eSmBdBJzHc9qj5wNCDLSr66+qxah/be26EBSUzeRySK6R/XTlWo4qpbupgk5Qj29l5hrvqLS9dIZ5TkEJQIbxVEtLXcPcxkB78YirQasZvkPP/zUyHzsF7eLnZk9DtpvMQezHqJD7F/Pi1HMLFDD+rB64LG7j0R3otK6F2YZRx580KDBuVPX/lafWu04D3oaka04uCYiR9YZJUNZ/sXTB2ZFIOen6fEuYPXRAyBMRbZA6ucn0dCq4fAAq+f/DmFCMj8OvXabVPogZbSMhrgp4lHoxFctTIRzrCAq9CxYHOB2uc4TP1jZCPPuFgMQzlU/jNoDjh6ucBN7zhAz42zhkJ1PikJc9kaJDmnJ5JcMLeObkxo2S5YoS0eKgIhfr7BkLOTagZTr6c6k8N0c22OZ7GEkeoLLzgtFGPRlq/kURr50fb3qXCLl65klHXXlUthDRIvO6JK2NjtwJWZkpzBknQFAEjmuXRfTpNDw4bx88j5C57g=
-
+  - secure: qK/qTQtwYQMv4Ucd3PiS5x8rXmYjD4Oq9/VJGq6Qx2RC1KnR5qQMOwN7bZRVahEJaJHk0meUrN5oVntWfdZl8qKeqleY1oH1MiJ+cIoMqxAkqWuZw1disKAQ7pvhW4ji+XsZsxFajC3d8wcKQNnEiWL1uBWBbZpK2WFbFIZpVxhyiXqUUyohMWGmHsuAor/Vgy/L7MzU4TotnOpVCL047hDu14Nks9tt8Zz4r3yr8eeUHuhL1Y/6RULz5nGbJW3ELDwXdKTQszxv/wJpMHIy5opv/Y3otF/OenfcA4qXo8nUOdynW/D7SHPsc086pj25SmFxgoMSA+sEcdCGLn+1LaiNprhnXi4hfbtds+hwTmcwV4n97AYX2V14lCYk4cKawM3yDVROTHYnK3FNxt7kLXGbz6/IvZLc6J/X2EMce7yrjWNktr+Q253e4Nafma3+nXG3aSgI6HfC62aYYFXALsNIHFUslAFWVviI0zZcOKcNYxoeneK/8LQBV3mfWJlJ7l1ZHqOtK7MRdR/SO2Pmk2dDqgOX6K4Jxoxu1vG5kYJDJT6D31vor6yMx1BktNmfbwkGLloUsu0bIrVhynaokTwpexvswBh60LZV8K8ic00g14Z2+ElSuINq9J5T+LnQQjYQdXBIpTlKB9TEN+VZcxnhDyz8ydF38GVJhSpzXCM=
 after_success:
 - bash ./bin/deploy.sh
-
 notifications:
   slack:
     secure: XxMrKjp3n1R0wAGq7V+5ppbtBnrGdhBZ0GMG9yp9Fm4330rD0l1IPePdY8fUioreJ5KLMEJuIHU5jud/99Qa1cjjV3Trn9IRFs5rBDNHz52XShECLvfaP/M2VA+rgGKTHeGNJM0Oxa7Yck3Qf1hKNCI/pJ/tVHHrcp8ohyhTodpYFunTUJp79BzSWrFTfcvBcEXMPxd5gwJK1S1TA/33ArDRjpTtBUNrbdPskUhqE3tG+WJCn5/8i6CBQiI8BbZ/+tE1PC7RUg/RLvvrNEs8JnbaDkafghSwfcB6rgFljbOXwg2O8A1ug/755ux8EdAqrr/2FDhOdPaCKu9TbBbCjKEKcv7xrJCzyAqT4KX4jnKAqnNN9X/bNY/F7sf5iMg4R+PDaen3v1hj5MOYEA0qQarcOw2D3jMOWCFjZzc9U776tJijH4m+hcjxqiJawfBOJnLqPYS3xvJ6H7PXrLctPZH2wdIk2L1rOYym6+K4uA9p3rVf11DPp+hQA8FWXUgTuv4bzYzcUz1hCZhSi6VuC76wl149uwqCTm1H5YzoJPHnZM425C/atzEkEyl/xamOFNdKQP564aWLGNgkT5us6EGCV3ON+vhfrml1md5Szrf8IfWKRRLW3IrtH/gwWEC3biBkFzb22tHXDOMvmsX3j0I1GnQVI7ZvEM6D5k/HMXw=
