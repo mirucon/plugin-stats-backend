@@ -1,14 +1,19 @@
 language: python
+
 python:
-- '3.6'
+  - '3.6'
+
 install:
-- pip install -r requirements.txt
-- npm install
+  - pip install -r requirements.txt
+  - npm install
+
 branches:
   only:
-  - master
+    - master
+
 script:
-- travis_wait 30 python api.py
+  - travis_wait 30 python api.py
+
 env:
   global:
   - GIT_COMMITTER_NAME=Mirucon
@@ -16,8 +21,10 @@ env:
   - GIT_AUTHOR_NAME=Mirucon
   - GIT_AUTHOR_EMAIL=i@miruc.co
   - secure: Oy0CX0DGxtQEXAyqvfhevSB6Xb+cNn12VLKa/md4S4g5gX5+vEx1tqHoFe1LePp3zig4X4i0YSm0W8g+oLH8zpzgKkacFayEHI7S2msHVGwHULxKGLQcjY1sF9dwnQqt0Lb3Vt0Fe5P7SACumugnfUOJatxHDCAGLOCyJ6yGHA/3e2jSvOXp+pvMeX+lneTGIy2y0XOQxBnxySmNU2kSQ4WVqMbK6T3wsa4fr1VRwBEGp7Wxp296t+VvUm/+ciuTgofNwIUTx6Att+eKiDs8vXgaYKuKhhrtkpWSxhJuLTIqD5KYXOR0tKzRtE2mNWJhhIJFhaifB4cM+5LxnAa7yQmqIcTHg5dvfwTx4bIIufmkdlKp+dZQfdzPePrAgEWN800E+A5yQNybZrFt7WQW6TWFY+HBH0gbdGnzEG+6z6TW6oCaa3YF4LIl9cW2JWKIUwAZWPOlvrgWwHpS+rUCfqZN0tjkT66ve0Fqk3betzr0iTRIRQHjGQHDYLt6bOj9Qmn7akqq+PHlE26Yqesvj12+9/v50psclFMv415cVYNgBvc6bOkP3RRdhG4DlvPNwbKyCjch7uvKX64DflEuJZ6PGU6Ax2pD8l1Wq480JKGLlOupCAvFNZdG/rYm8UCCG22lmu2+p7wLFGgqn/ExxlGkpZJ14rAfNbllRCQISLo=
+
 after_success:
-- bash ./bin/deploy.sh
+  - bash ./bin/deploy.sh
+
 notifications:
   slack:
     secure: XxMrKjp3n1R0wAGq7V+5ppbtBnrGdhBZ0GMG9yp9Fm4330rD0l1IPePdY8fUioreJ5KLMEJuIHU5jud/99Qa1cjjV3Trn9IRFs5rBDNHz52XShECLvfaP/M2VA+rgGKTHeGNJM0Oxa7Yck3Qf1hKNCI/pJ/tVHHrcp8ohyhTodpYFunTUJp79BzSWrFTfcvBcEXMPxd5gwJK1S1TA/33ArDRjpTtBUNrbdPskUhqE3tG+WJCn5/8i6CBQiI8BbZ/+tE1PC7RUg/RLvvrNEs8JnbaDkafghSwfcB6rgFljbOXwg2O8A1ug/755ux8EdAqrr/2FDhOdPaCKu9TbBbCjKEKcv7xrJCzyAqT4KX4jnKAqnNN9X/bNY/F7sf5iMg4R+PDaen3v1hj5MOYEA0qQarcOw2D3jMOWCFjZzc9U776tJijH4m+hcjxqiJawfBOJnLqPYS3xvJ6H7PXrLctPZH2wdIk2L1rOYym6+K4uA9p3rVf11DPp+hQA8FWXUgTuv4bzYzcUz1hCZhSi6VuC76wl149uwqCTm1H5YzoJPHnZM425C/atzEkEyl/xamOFNdKQP564aWLGNgkT5us6EGCV3ON+vhfrml1md5Szrf8IfWKRRLW3IrtH/gwWEC3biBkFzb22tHXDOMvmsX3j0I1GnQVI7ZvEM6D5k/HMXw=
