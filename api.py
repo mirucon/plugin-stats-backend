@@ -100,7 +100,7 @@ def rel_time(val):
         o = 'Within a month ago'
 
     elif 30 < val < 90:
-        o = 'A month ago'
+        o = '1 month ago'
 
     elif 90 < val < 180:
         o = '3 months ago'
@@ -109,7 +109,7 @@ def rel_time(val):
         o = '6 months ago'
 
     elif 365 < val < 730:
-        o = 'A year ago'
+        o = '1 year ago'
 
     elif 730 < val < 1460:
         o = '2 years ago'
