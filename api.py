@@ -28,6 +28,8 @@ def validation(val):
             return False
         if re.search(r"/", o):
             o = o.replace("/", ".")
+        if re.search(r" ", o):
+            o = o.replace(" ", ".")
         if re.search(r",", o):
             o = o.replace(",", ".")
         if re.fullmatch(r"\d", o):
