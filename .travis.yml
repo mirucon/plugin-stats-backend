@@ -1,26 +1,37 @@
 language: python
+
 branches:
   only:
-  - master
-  except:
-  - json
+    - master
+
 python:
-- '3.6'
+  - '3.6'
+
 install:
-- pip install -r requirements.txt
-- npm install
+  - pip install -r requirements.txt
+  - npm install
+
 script:
-- travis_wait 30 python api.py
+  - travis_wait 30 python api.py
+
 env:
   global:
-  - GIT_COMMITTER_NAME=Mirucon
-  - GIT_COMMITTER_EMAIL=i@miruc.co
-  - GIT_AUTHOR_NAME=Mirucon
-  - GIT_AUTHOR_EMAIL=i@miruc.co
-  - secure: XCtjhbpMyHAf/73Mrzd3eNvRJd4ET+ObOUE5YVNdJON1iv2ruA34iECUxyzsGLvRJjhXtrHUcGaa1A/pnRoK7d8g2uWdzRdotveaKaG3AmelTwNRaSu5G/o25frpTga8Fz1zw1J4UTjCpL5oXIQBQnB0cl6g2Xs7IRQJGxXozT6PqVseZYqLtI12R38jPUGRgoQQtnN7AwjsSlE26QNlwUa9z4l/3PpAj3dPKkOAga3h3LNcYCp5tV7++OREG6jD5pDWDzIMkuI0Y2Gg0g/7PD3OaJK7WujiFvAOzXIfdlaxA1fRz/iUWVeA9gfk9J8pqaIQkpwfXj9/llN0iuPxYWq1nrcge9yn0xF8LDi0vBq2EHPZ7q0g3fmhvWz/qPLhVeaBbl3B1yq3bzeMa6RQyTo6eUGGbMzPiqntozQozePulW56b1YM1L1LlmG/QXTG7B6kMdlA6tEiEFXTBcywC0uLTyUZ01XcKq7YZ+MVF6c52rSAn8IavpM43Mln9ESu4AUMlT987rjaneIqGgqHkuA197VyKgYA1t0/bHTvmr6yEPlCqLaE5g4ay9KxjXkd5Jj2wRxGhegFfKaTXOq+ESlhgZ37cA7OQbRyEONU89vsTKqcfLveys2J7pEeIhKVnIkFebFCARbmD8DUxNDs8yTBIbbe1jxa7/uMMKDikNc=
+    - GIT_COMMITTER_NAME=Mirucon
+    - GIT_COMMITTER_EMAIL=i@miruc.co
+    - GIT_AUTHOR_NAME=Mirucon
+    - GIT_AUTHOR_EMAIL=i@miruc.co
+    - secure: XCtjhbpMyHAf/73Mrzd3eNvRJd4ET+ObOUE5YVNdJON1iv2ruA34iECUxyzsGLvRJjhXtrHUcGaa1A/pnRoK7d8g2uWdzRdotveaKaG3AmelTwNRaSu5G/o25frpTga8Fz1zw1J4UTjCpL5oXIQBQnB0cl6g2Xs7IRQJGxXozT6PqVseZYqLtI12R38jPUGRgoQQtnN7AwjsSlE26QNlwUa9z4l/3PpAj3dPKkOAga3h3LNcYCp5tV7++OREG6jD5pDWDzIMkuI0Y2Gg0g/7PD3OaJK7WujiFvAOzXIfdlaxA1fRz/iUWVeA9gfk9J8pqaIQkpwfXj9/llN0iuPxYWq1nrcge9yn0xF8LDi0vBq2EHPZ7q0g3fmhvWz/qPLhVeaBbl3B1yq3bzeMa6RQyTo6eUGGbMzPiqntozQozePulW56b1YM1L1LlmG/QXTG7B6kMdlA6tEiEFXTBcywC0uLTyUZ01XcKq7YZ+MVF6c52rSAn8IavpM43Mln9ESu4AUMlT987rjaneIqGgqHkuA197VyKgYA1t0/bHTvmr6yEPlCqLaE5g4ay9KxjXkd5Jj2wRxGhegFfKaTXOq+ESlhgZ37cA7OQbRyEONU89vsTKqcfLveys2J7pEeIhKVnIkFebFCARbmD8DUxNDs8yTBIbbe1jxa7/uMMKDikNc=
+
 after_success:
-- bash ./bin/deploy.sh
+  - bash ./bin/deploy.sh
+
+cache:
+  directories:
+    - node_modules
+
 notifications:
+  email: false
   slack:
-    secure: XxMrKjp3n1R0wAGq7V+5ppbtBnrGdhBZ0GMG9yp9Fm4330rD0l1IPePdY8fUioreJ5KLMEJuIHU5jud/99Qa1cjjV3Trn9IRFs5rBDNHz52XShECLvfaP/M2VA+rgGKTHeGNJM0Oxa7Yck3Qf1hKNCI/pJ/tVHHrcp8ohyhTodpYFunTUJp79BzSWrFTfcvBcEXMPxd5gwJK1S1TA/33ArDRjpTtBUNrbdPskUhqE3tG+WJCn5/8i6CBQiI8BbZ/+tE1PC7RUg/RLvvrNEs8JnbaDkafghSwfcB6rgFljbOXwg2O8A1ug/755ux8EdAqrr/2FDhOdPaCKu9TbBbCjKEKcv7xrJCzyAqT4KX4jnKAqnNN9X/bNY/F7sf5iMg4R+PDaen3v1hj5MOYEA0qQarcOw2D3jMOWCFjZzc9U776tJijH4m+hcjxqiJawfBOJnLqPYS3xvJ6H7PXrLctPZH2wdIk2L1rOYym6+K4uA9p3rVf11DPp+hQA8FWXUgTuv4bzYzcUz1hCZhSi6VuC76wl149uwqCTm1H5YzoJPHnZM425C/atzEkEyl/xamOFNdKQP564aWLGNgkT5us6EGCV3ON+vhfrml1md5Szrf8IfWKRRLW3IrtH/gwWEC3biBkFzb22tHXDOMvmsX3j0I1GnQVI7ZvEM6D5k/HMXw=
+    secure: MFwqbD9AFj4VN1JiIMWlURaTEXeKdSUFitzDsYokSUfLqIYdE9KefNjp6OtjA8cRxsvDa7JosFqSsW2AKaUzusz9FFe0chy/Y4CwRpbMonq71dDF6hYG5b/sGwwgEZ5XOc49YhmczzDfUHHLAm97Z4R7OgWCTJhfZoDqBsUkS3jDrKS5Io03RrcezIfm5+3V8bX3iICkqTkJ8J1oY3+2IOgNY2mANzq0F5O9K3zNh6Nc2kV3/cgzfNUtQ/ef3/OARLCYumQDqRvszRJzGin5nNcD6JtHWjQMl1cnsyLaTT1MMDTer4GEoOJAoBco7cmcgLvjtpQzVOc8w1dhHbUNSagIIYh3MmbvZx6Id7g5JtnO20yOKpDSEzfXupd4emNtI7sgrMcYpH/cw+pvMR/YfniyX9us6YATROXeAyjkvUioi51IJX31IIUTTGeorttQQ15dkbpiWxctvansiYRz2ix7RDHFv+S0DBC9KIDyLuj9SBOjPwmudKl4xqP2sJMx7NLrlIecgiabxak8CyG6wYpGov811M91ur2vqjby2JMvYsArOWrfjRtpjC8W3V9l3Q6pK6/hbkkeLMWA1zPjhlbbIKxCKXy+iJjKTqrVjT8kjjgTJ03+VUJlQWXMmYzGb+IN7CrzkIipmo517SrSuI6gG0Udj/F/J2Zb1C6vlOc=
     on_success: always
+    on_failure: always

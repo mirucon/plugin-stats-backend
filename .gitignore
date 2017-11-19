@@ -4,4 +4,5 @@ test.py
 deploy_key
 deploy_key.pub
 
+.vscode/*
 *.DS_Store
