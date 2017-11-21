@@ -99,25 +99,25 @@ def rel_time(val):
     val = val.days
 
     if 0 <= val < 30:
-        o = 'Within a month ago'
+        o = '0'
 
     elif 30 < val < 90:
-        o = '1 month ago'
+        o = '1'
 
     elif 90 < val < 180:
-        o = '3 months ago'
+        o = '2'
 
     elif 180 < val < 365:
-        o = '6 months ago'
+        o = '3'
 
     elif 365 < val < 730:
-        o = '1 year ago'
+        o = '4'
 
     elif 730 < val < 1460:
-        o = '2 years ago'
+        o = '5'
 
     elif 1460 < val:
-        o = '4 years ago'
+        o = '6'
 
     else:
         return False
@@ -177,6 +177,16 @@ dates = Counter(dates)
 requires = OrderedDict(sorted(requires.items()))
 tested = OrderedDict(sorted(tested.items()))
 requires_php = OrderedDict(sorted(requires_php.items()))
+dates = OrderedDict(sorted(dates.items()))
+
+# Rename the dict dates
+dates['Within a month ago'] = dates.pop('0')
+dates['1 month ago'] = dates.pop('1')
+dates['3 months ago'] = dates.pop('2')
+dates['6 months ago'] = dates.pop('3')
+dates['1 year ago'] = dates.pop('4')
+dates['2 years ago'] = dates.pop('5')
+dates['4 years ago'] = dates.pop('6')
 
 # Make the list to dict
 requires = dict(requires)
@@ -187,6 +197,8 @@ installs = dict(installs)
 dates = dict(dates)
 
 plugins = [requires, tested, requires_php, downloads, installs, dates, total]
+
+print(dates)
 
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp)
