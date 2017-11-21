@@ -198,7 +198,5 @@ dates = dict(dates)
 
 plugins = [requires, tested, requires_php, downloads, installs, dates, total]
 
-print(dates)
-
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp)
