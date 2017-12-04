@@ -9,8 +9,7 @@ set -e
 # chmod 600 ~/.ssh/deploy.key
 
 git clone -b json --quiet "https://github.com/${TRAVIS_REPO_SLUG}.git"
-npm run build
-mv plugins.min.json plugin-stats-backend
+mv plugins.json plugin-stats-backend
 cd plugin-stats-backend
 git add plugins.json
 git rm plugins.min.json

@@ -9,7 +9,6 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - npm install
 
 script:
   - travis_wait 30 python api.py
