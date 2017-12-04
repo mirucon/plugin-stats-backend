@@ -199,4 +199,4 @@ dates = dict(dates)
 plugins = [requires, tested, requires_php, downloads, installs, dates, total]
 
 with open('plugins.json', 'w') as fp:
-    json.dump(plugins, fp)
+    json.dump(plugins, fp, separators=(',', ':'))
