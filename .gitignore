@@ -5,4 +5,7 @@ deploy_key
 deploy_key.pub
 
 .vscode/*
-*.DS_Store
+.DS_Store
+
+gulpfile.js
+package.json
