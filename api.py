@@ -196,7 +196,10 @@ downloads = dict(downloads)
 installs = dict(installs)
 dates = dict(dates)
 
-plugins = [requires, tested, requires_php, downloads, installs, dates, total]
+cur_time = datetime.datetime.utcnow().strftime('%Y,%m,%d,%H,%M,%S')
+
+plugins = [requires, tested, requires_php, downloads, installs, dates,
+           total, cur_time]
 
 with open('plugins.json', 'w') as fp:
     json.dump(plugins, fp, separators=(',', ':'))
