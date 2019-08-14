@@ -16,7 +16,7 @@ downloads = []
 installs = []
 dates = []
 per_page = 100
-wp_current = '4.9'
+wp_current = '5.2'
 
 
 def validation(val):
